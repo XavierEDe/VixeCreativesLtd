@@ -1,0 +1,38 @@
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+
+const ConsultationSchema = z.object({
+  fullName: z.string().trim().min(2).max(120),
+  companyName: z.string().trim().max(160).optional().or(z.literal("")),
+  email: z.string().trim().email().max(255),
+  phone: z.string().trim().min(6).max(30),
+  service: z.string().trim().min(2).max(120),
+  budget: z.string().trim().max(60).optional().or(z.literal("")),
+  preferredDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date"),
+  preferredTime: z.string().trim().min(1).max(20),
+  meetingType: z.enum(["virtual", "physical", "phone"]),
+  projectDescription: z.string().trim().min(10).max(4000),
+});
+
+export const bookConsultation = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => ConsultationSchema.parse(data))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/client.server");
+    const { error } = await supabaseAdmin.from("consultations").insert({
+      full_name: data.fullName,
+      company_name: data.companyName || null,
+      email: data.email,
+      phone: data.phone,
+      service: data.service,
+      budget: data.budget || null,
+      preferred_date: data.preferredDate,
+      preferred_time: data.preferredTime,
+      meeting_type: data.meetingType,
+      project_description: data.projectDescription,
+    });
+    if (error) {
+      console.error("[consultation] insert failed:", error);
+      throw new Error("Could not save your booking. Please try again.");
+    }
+    return { ok: true } as const;
+  });
