@@ -16,7 +16,7 @@ export function SiteFooter() {
             <img
               src={COMPANY.short}
               alt="Vixe Creatives Limited"
-              className="h-28 w-28 object-contain -ml-3 dark:hidden"
+              className="h-12 w-auto object-contain -ml-3 dark:hidden"
             />
             <img
               src={COMPANY.shortDark}

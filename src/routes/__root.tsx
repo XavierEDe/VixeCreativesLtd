@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportVixeError } from "../lib/vixe-error-reporting";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 
@@ -34,7 +34,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportVixeError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
@@ -64,13 +64,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Vixe Creatives Limited — Premium Technology Solutions in Abuja" },
       { name: "description", content: "Vixe Creatives builds websites, mobile apps, custom software, networking, cloud and branding solutions from Abuja, Nigeria." },
       { name: "author", content: "Vixe Creatives Limited" },
-      { property: "og:site_name", content: "Vixe Ceatives Limited" },
+      { property: "og:site_name", content: "Vixe Creatives Limited" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0a0a0a" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },

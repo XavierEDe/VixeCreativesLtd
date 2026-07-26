@@ -10,7 +10,7 @@ const InitSchema = z.object({
 });
 
 export const initializePaystack = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => InitSchema.parse(data))
+  .validator((data: unknown) => InitSchema.parse(data))
   .handler(async ({ data }) => {
     const secretKey = process.env.PAYSTACK_SECRET_KEY;
     if (!secretKey) {
@@ -67,7 +67,7 @@ export const initializePaystack = createServerFn({ method: "POST" })
 const VerifySchema = z.object({ reference: z.string().trim().min(4).max(120) });
 
 export const verifyPaystack = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => VerifySchema.parse(data))
+  .validator((data: unknown) => VerifySchema.parse(data))
   .handler(async ({ data }) => {
     const secretKey = process.env.PAYSTACK_SECRET_KEY;
     if (!secretKey) throw new Error("Payments unavailable.");

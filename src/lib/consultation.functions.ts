@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+//import { resend } from "@/lib/resend";
 
 const ConsultationSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
@@ -15,7 +16,7 @@ const ConsultationSchema = z.object({
 });
 
 export const bookConsultation = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => ConsultationSchema.parse(data))
+  .validator((data: unknown) => ConsultationSchema.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/client.server");
     const { error } = await supabaseAdmin.from("consultations").insert({
@@ -34,5 +35,28 @@ export const bookConsultation = createServerFn({ method: "POST" })
       console.error("[consultation] insert failed:", error);
       throw new Error("Could not save your booking. Please try again.");
     }
+    
+    /*await resend.emails.send({
+      from: "Vixe Software <bookingvixecreatives.com>", // Change later to your verified domain
+      to: "vixe.xed@email.com", // Your email address
+      subject: "New Consultation Booking",
+      html: `
+        <h2>New Consultation Booking</h2>
+
+        <p><strong>Name:</strong> ${data.fullName}</p>
+        <p><strong>Company:</strong> ${data.companyName || "N/A"}</p>
+        <p><strong>Email:</strong> ${data.email}</p>
+        <p><strong>Phone:</strong> ${data.phone}</p>
+        <p><strong>Service:</strong> ${data.service}</p>
+        <p><strong>Budget:</strong> ${data.budget || "Not specified"}</p>
+        <p><strong>Date:</strong> ${data.preferredDate}</p>
+        <p><strong>Time:</strong> ${data.preferredTime}</p>
+        <p><strong>Meeting Type:</strong> ${data.meetingType}</p>
+
+        <h3>Project Description</h3>
+        <p>${data.projectDescription}</p>
+      `,
+    }); */
+    
     return { ok: true } as const;
   });

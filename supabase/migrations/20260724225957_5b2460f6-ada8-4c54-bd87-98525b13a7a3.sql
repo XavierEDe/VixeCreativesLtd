@@ -1,4 +1,3 @@
-
 CREATE TABLE public.consultations (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   full_name TEXT NOT NULL,
