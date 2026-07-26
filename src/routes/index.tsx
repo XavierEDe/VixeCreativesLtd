@@ -27,7 +27,7 @@ function HomePage() {
         <div className="container-x relative grid gap-10 py-20 sm:py-28 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="relative z-10">
             <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
-              <Sparkles className="h-3.5 w-3.5" /> Premium Technology Company · {COMPANY.location}
+              <Sparkles className="h-3.5 w-3.5" /> Premium Technology Company
             </span>
             <h1 className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
               Transforming ideas into <span className="text-gradient-brand">powerful digital solutions</span>.
